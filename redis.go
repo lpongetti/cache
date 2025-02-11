@@ -111,3 +111,11 @@ func (r *redisCache) Exists(ctx context.Context, key string) (bool, error) {
 	}
 	return true, nil
 }
+
+func (r *redisCache) SetTTL(ctx context.Context, key string, ttl time.Duration) (bool, error) {
+	value, err := r.client.Expire(ctx, key, ttl).Result()
+	if err != nil && err != redis.Nil {
+		return false, err
+	}
+	return value, nil
+}
