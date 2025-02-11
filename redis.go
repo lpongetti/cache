@@ -112,6 +112,14 @@ func (r *redisCache) Exists(ctx context.Context, key string) (bool, error) {
 	return true, nil
 }
 
+func (r *redisCache) Keys(ctx context.Context, pattern string) ([]string, error) {
+	value, err := r.client.Keys(ctx, pattern).Result()
+	if err != nil && err != redis.Nil {
+		return []string{}, err
+	}
+	return value, nil
+}
+
 func (r *redisCache) SetTTL(ctx context.Context, key string, ttl time.Duration) (bool, error) {
 	value, err := r.client.Expire(ctx, key, ttl).Result()
 	if err != nil && err != redis.Nil {

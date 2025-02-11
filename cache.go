@@ -17,6 +17,7 @@ type ICache interface {
 	Decrease(ctx context.Context, key string) (int64, error)
 	DecreaseAndDelete(ctx context.Context, key string) (int64, error)
 	SetTTL(ctx context.Context, key string, ttl time.Duration) (bool, error)
+	Keys(ctx context.Context, pattern string) ([]string, error)
 }
 
 type Configuration struct {
